@@ -1,22 +1,36 @@
-<article class="p-6 dark:text-white lg:flex">
-    <a href="{{ .Permalink }}" aria-label="Read">
-        {{ if .Params.image }}
-        <img class="rounded mx-auto w-24 h-32 lg:mx-0 mb-5 object-cover lg:mb-0" src="{{ .Params.image | relURL }}" alt="thumbnail" />
+<article class="p-6 dark:text-white lg:flex border-b border-gray-100 dark:border-warmgray-800 last:border-0">
+    <a href="{{ .Permalink }}" aria-label="Read" class="shrink-0">
+        {{/* 1. Page Bundles内の画像（フロントマターのimage指定、またはフォルダ内の画像）を取得 */}}
+        {{ $img := .Resources.GetMatch (.Params.image | default "*{jpg,png,jpeg}*") }}
+        
+        {{ if $img }}
+            {{/* 2. Pixiv風の縦横比（200x280）にリサイズ。画質(q90)も維持 */}}
+            {{ $thumb := $img.Fill "200x280 q90 center" }}
+            <img class="rounded shadow-sm mx-auto w-24 h-32 lg:mx-0 mb-5 object-cover lg:mb-0 hover:opacity-90 transition-opacity" 
+                 src="{{ $thumb.RelPermalink }}" 
+                 alt="thumbnail" />
         {{ else }}
-        <img class="rounded mx-auto w-auto h-32 lg:mx-0 mb-5 lg:mb-0" src="{{ "/img/novel.png" | relURL }}" alt="thumbnail" />
+            {{/* 3. 画像がない場合はデフォルト画像を表示 */}}
+            <div class="rounded bg-gray-100 dark:bg-warmgray-800 flex items-center justify-center w-24 h-32 mx-auto lg:mx-0 mb-5 lg:mb-0">
+                <img class="w-12 h-12 opacity-20" src="{{ "/img/novel.png" | relURL }}" alt="no-image" />
+            </div>
         {{ end }}
     </a>
-    <div class="lg:ml-8 flex-1"> <a href="{{ .Permalink }}">
-            <h1 class="text-xl mb-2 hover:text-blue-500 transition-colors">{{ .Title }}</h1>
+
+    <div class="lg:ml-8 flex-1 min-w-0"> <a href="{{ .Permalink }}">
+            <h1 class="text-xl font-bold mb-2 hover:text-blue-500 transition-colors truncate">{{ .Title }}</h1>
         </a>
 
-        <p class="mb-1 text-sm opacity-40">
-            {{ partial "wordcount.html" . }} ・ {{ .Date.Format "2006/01/02" }}
+        <p class="mb-1 text-sm opacity-40 flex items-center gap-2">
+            <span><i class="fas fa-pencil-alt mr-1"></i>{{ partial "wordcount.html" . }}</span>
+            <span>・</span>
+            <span>{{ .Date.Format "2006/01/02" }}</span>
         </p>
 
         {{ with .Params.tags }}
-            <div id="tags" class="flex flex-wrap"> {{ range . }}
-                <span class="inline-flex mr-3 my-1 text-sm text-blue-500 hover:underline">
+            <div id="tags" class="flex flex-wrap gap-x-3 gap-y-1 mb-2"> 
+                {{ range . }}
+                <span class="text-sm text-blue-500 hover:underline">
                     <a href="{{ "tags" | absURL}}/{{ . | urlize }}">#{{ . }}</a>
                 </span>
                 {{ end }}
@@ -24,11 +38,11 @@
         {{ end }}
 
         {{ if .Description }}
-        <p class="opacity-70 text-sm mt-2 line-clamp-3 leading-relaxed">
+        <p class="opacity-70 text-sm mt-2 line-clamp-3 leading-relaxed break-words">
             {{ .Description | plainify }}
         </p>
         {{ else }}
-        <p class="opacity-50 text-xs italic mt-2">あらすじ（キャプション）はありません</p>
+        <p class="opacity-30 text-xs italic mt-2">（あらすじはありません）</p>
         {{ end }}
     </div>
 </article>
