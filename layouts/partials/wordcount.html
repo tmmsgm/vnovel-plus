@@ -1,0 +1,5 @@
+{{- $content := .RawContent -}}
+{{- /* 改行やスペースを除去して文字数だけをカウント */ -}}
+{{- $cleanContent := $content | replaceRE "[\\s\\n\\r\\t]" "" -}}
+{{- $charCount := countrunes $cleanContent -}}
+{{ $charCount }} 文字
