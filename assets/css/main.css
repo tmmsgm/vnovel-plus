@@ -42,3 +42,8 @@ rt {
     -webkit-ruby-position: over;
     ruby-position: over;
 }
+
+/* 本文全体の行間を少し余裕を持って固定する */
+.prose, .novel-body { 
+    line-height: 2.2; /* 少し広めがPixiv風です */
+}
