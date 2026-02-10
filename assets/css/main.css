@@ -19,3 +19,26 @@ rt {
     /* 読みやすさのためのフォント指定（明朝体など） */
     font-family: "Hiragino Mincho ProN", "MS Mincho", serif;
 }
+
+/* --- 小説本文のルビ（振り仮名）カスタマイズ --- */
+ruby {
+    /* 親文字（漢字）に対してルビを均等に配置 */
+    ruby-align: space-around;
+}
+
+rt {
+    /* フォントサイズを親文字の約55%に設定（Pixivに近いバランス） */
+    font-size: 0.58em;
+    /* 漢字との間のわずかな隙間（重なって見えないように） */
+    padding-bottom: 0.15em;
+    /* わずかに色を薄くすると、可読性が上がりつつ「それっぽく」なります */
+    color: #4b5563; /* Tailwindのgray-600相当 */
+    /* ルビのフォントを明朝体など落ち着いたものに固定する場合 */
+    font-family: "Hiragino Mincho ProN", "MS Mincho", serif;
+}
+
+/* 縦書き対応も視野に入れるなら */
+:root {
+    -webkit-ruby-position: over;
+    ruby-position: over;
+}
