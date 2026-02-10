@@ -2,3 +2,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+ruby {
+    /* ルビの配置を親文字に対して均等割り付けにする */
+    ruby-align: space-around;
+    /* ブラウザごとの表示差を抑える */
+    -webkit-ruby-position: over;
+    ruby-position: over;
+}
+
+rt {
+    /* ルビのフォントサイズを調整（親文字の50-60%が一般的） */
+    font-size: 0.6em;
+    /* 漢字との距離を微調整 */
+    margin-bottom: 0.1em;
+    /* 読みやすさのためのフォント指定（明朝体など） */
+    font-family: "Hiragino Mincho ProN", "MS Mincho", serif;
+}
